@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "generator-pitanja-za-ispit": {
+      "commandName": "Project"
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    }
+  }
+}
