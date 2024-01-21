@@ -19,7 +19,7 @@ namespace generator_pitanja_za_ispit
             }catch (Exception ex)
             {
                 Console.WriteLine("Unos datoteke nije validna");
-                Environment.Exit(1);
+                ExitProgram();
             }
             Console.Write($"Napisi koliko pitanja zelis od 1 do {allQuestionBase.Length}: ");
             int questionNo = 0;
@@ -29,12 +29,16 @@ namespace generator_pitanja_za_ispit
                 
                 Console.WriteLine("Unos nije ispravan!");
                 Console.WriteLine("Gasim program!");
-                Environment.Exit(1);
+                ExitProgram();
             }
             if (questionNo > allQuestionBase.Length)
             {
                 Console.WriteLine("Broj pitanja ne sme da bude veci od broj baza pitanja");
-                Environment.Exit(1);
+                ExitProgram();
+            }else if (questionNo <= 0)
+            {
+                Console.WriteLine("Broj pitanja ne sme da bude manji ili jednak nuli");
+                ExitProgram();
             }
             Console.Write("Unesi putanju za cuvanje pitanja (*.txt) ili pretisni enter ako zelis u root programa da cuvas: ");
             string questionBase = Console.ReadLine();
@@ -51,19 +55,35 @@ namespace generator_pitanja_za_ispit
             Console.WriteLine("=====PITANJA=====");
             PrintAllQuestions();
             Console.WriteLine("=====KRAJ PITANJA=====");
+            
+            ExitProgram();
+        }
+
+        private static void ExitProgram()
+        {
+            Console.WriteLine("Pretisni bilo koje dugme za izlaz...");
             Console.Read();
+            Environment.Exit(1);
         }
 
         private static void WriteQuestions(string questionBase)
         {
-            using(StreamWriter sr  = new StreamWriter(questionBase))
+            try
             {
-                foreach (string question in questionsList)
+                using (StreamWriter sr = new StreamWriter(questionBase))
                 {
-                    sr.WriteLine(question);
+                    foreach (string question in questionsList)
+                    {
+                        sr.WriteLine(question);
+                    }
+
                 }
-                
+            }catch (Exception ex)
+            {
+                Console.WriteLine("Pristup ka datoteci nije dozvoljen :(");
+                ExitProgram();
             }
+            
         }
 
         private static void PrintAllQuestions()
