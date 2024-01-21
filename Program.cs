@@ -9,6 +9,7 @@ namespace generator_pitanja_za_ispit
         static string[] allQuestionBase = { };
         static void Main(string[] args)
         {
+            Question q = new Question(questionsList);
             Console.WriteLine("Dobrodosli na generator pitanja za ispite");
             Console.Write("Unesi putanju ka bazi: ");
             string databasePath = Console.ReadLine();
@@ -19,7 +20,7 @@ namespace generator_pitanja_za_ispit
             }catch (Exception ex)
             {
                 Console.WriteLine("Unos datoteke nije validna");
-                ExitProgram();
+                ProgramHandling.ExitProgram();
             }
             Console.Write($"Napisi koliko pitanja zelis od 1 do {allQuestionBase.Length}: ");
             int questionNo = 0;
@@ -29,16 +30,16 @@ namespace generator_pitanja_za_ispit
                 
                 Console.WriteLine("Unos nije ispravan!");
                 Console.WriteLine("Gasim program!");
-                ExitProgram();
+                ProgramHandling.ExitProgram();
             }
             if (questionNo > allQuestionBase.Length)
             {
                 Console.WriteLine("Broj pitanja ne sme da bude veci od broj baza pitanja");
-                ExitProgram();
+                ProgramHandling.ExitProgram();
             }else if (questionNo <= 0)
             {
                 Console.WriteLine("Broj pitanja ne sme da bude manji ili jednak nuli");
-                ExitProgram();
+                ProgramHandling.ExitProgram();
             }
             Console.Write("Unesi putanju za cuvanje pitanja (*.txt) ili pretisni enter ako zelis u root programa da cuvas: ");
             string questionBase = Console.ReadLine();
@@ -50,79 +51,12 @@ namespace generator_pitanja_za_ispit
             {
                 questionBase += ".txt";
             }
-            GenerateQuestions(questionNo, allQuestionBase);
-            WriteQuestions(questionBase);
+            q.GenerateQuestions(questionNo, allQuestionBase);
+            q.WriteQuestions(questionBase);
             Console.WriteLine("=====PITANJA=====");
-            PrintAllQuestions();
+            q.PrintAllQuestions();
             Console.WriteLine("=====KRAJ PITANJA=====");
-            
-            ExitProgram();
-        }
-
-        private static void ExitProgram()
-        {
-            Console.WriteLine("Pretisni bilo koje dugme za izlaz...");
-            Console.Read();
-            Environment.Exit(1);
-        }
-
-        private static void WriteQuestions(string questionBase)
-        {
-            try
-            {
-                using (StreamWriter sr = new StreamWriter(questionBase))
-                {
-                    foreach (string question in questionsList)
-                    {
-                        sr.WriteLine(question);
-                    }
-
-                }
-            }catch (Exception ex)
-            {
-                Console.WriteLine("Pristup ka datoteci nije dozvoljen :(");
-                ExitProgram();
-            }
-            
-        }
-
-        private static void PrintAllQuestions()
-        {
-            foreach(string question in questionsList)
-            {
-                Console.WriteLine(question);
-            }
-        }
-
-        private static void GenerateQuestions(int questionNo, string[] questions)
-        {
-            for(int i = 0;  i < questionNo; i++)
-            {
-                string question = questions[GetRandomNumber(questions)];
-                if (!questionsList.Contains(question))
-                {
-                    questionsList.Add(question);
-                }
-                else
-                {
-                    continue;
-                }
-            }
-        }
-
-        private static int GetRandomNumber(string[] questions)
-        {
-            Random rand = new Random();
-            int result = 0;
-            try
-            {
-                result = rand.Next(questions.Length);
-            }catch (Exception e)
-            {
-                result = 0;
-            }
-            return result;
-
+            ProgramHandling.ExitProgram();
         }
     }
 }
