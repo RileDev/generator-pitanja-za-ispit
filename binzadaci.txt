@@ -1,5 +1,0 @@
-55. Ukoliko otvaramo datoteku, da li treba ta datoteka da postoji, i (podrazumevano) gde?
-53. Opisati metode .write(), .seek() i .tell().
-58. Kako kontrolišemo pristup datoteci?
-12. Opisati proces dizajniranja programa i navesti korake. 
-14. Šta predstavlja promenljiva i kako se promenljivoj dodeljuje vrednost?
